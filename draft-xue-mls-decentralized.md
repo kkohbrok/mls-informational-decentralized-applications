@@ -24,13 +24,13 @@ venue:
 author:
  -
     fullname: Mark Xue
-    organization: Germ Network
-    email:
-
+    organization: Germ Network, Inc.
+    email: "mark@germ.network"
+ -
     fullname: Britta Hale
     organization: Naval Postgraduate School
-    email: britta.hale@nps.edu
-
+    email: "britta.hale@nps.edu"
+ -
     fullname: Konrad Kohbrok
     organization: Phoenix R&D
     email:
@@ -98,11 +98,11 @@ MLS offers logarthimic overhead for groups.
 Additional overhead from the DS must also be accounted for.
 
 ### Delivery Service
-The centralized case is straightforward in MLS. For decentralized use cases 
-and distributed use cases, care must be taken to identify a suitable DS to 
-ensure that there is group consensus on commit ordering. As a use case 
-increases in complexity to the decentralized setting and thence to the 
-distributed setting, DS design decisions have increasing implications on 
+The centralized case is straightforward in MLS. For decentralized use cases
+and distributed use cases, care must be taken to identify a suitable DS to
+ensure that there is group consensus on commit ordering. As a use case
+increases in complexity to the decentralized setting and thence to the
+distributed setting, DS design decisions have increasing implications on
 overhead and potentially also security.
 
 In a decentralized setting, one example solution is to assign one server
@@ -177,8 +177,18 @@ storage, as well as a slight complexity increase in MLS's key schedule. This
 makes the use of MLS viable in environments where forks may occur due to
 out-of-order commits.
 
-## DiMLS (Mark)
-DiMLS is defined in....
+## DiMLS
+DiMLS is defined in draft-xue-distributed-mls-02
+(https://datatracker.ietf.org/doc/draft-xue-distributed-mls/)
+
+DiMLS accomodates concurrent actions by
+* defining a subset of group operations that are commutative and can be applied
+ou of order
+* using MLS groups as a primitive to represent each local snapshot of the
+total group state
+* advancing group state by distributing commits to the sender's local state
+* maintaining causal dependency across MLS groups by exporting shared secrets and
+importing them as PSK's.
 
 ### Overhead
 DiMLS overhead has linear update overhead. However, it is not dependent on the
@@ -187,10 +197,11 @@ consensus on commit ordering is not required for the DS unlike in MLS. Thus
 the trade-off in DiMLS is among overhead incurred by the security protocol
 itself and its architectural requirements in DS overhead.
 
-### Delivery Service  
-In DiMLS there are fewer requirements on the DS for exact ordering. Messages 
-must get to the respective destinations but in-order delivery is not expected 
-for security purposes of maintaining a consistent state. 
+### Delivery Service
+In DiMLS there are fewer requirements on the DS for exact ordering. Members
+must eventually receive each commit from each other member, but delivery does
+not need to be ordered for members to maintain consistent state.
+
 
 ### Resiliency
 DeMLS is highly resilient to out-of-order commits and, in the case of honest
